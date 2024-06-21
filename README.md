@@ -1,6 +1,6 @@
 This is a project generated with start.spring.io
 
-A REST API for managing filters fron the askend-frontend project. 
+A REST API for managing filters from the askend-frontend project. 
 
 Problems I could not overcome due to time restraints: 
 1) CORS - dispite adding @CrossOrigin and even implementing a global config I ran out of time to fix it.
