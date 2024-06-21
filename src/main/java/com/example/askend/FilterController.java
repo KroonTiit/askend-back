@@ -3,7 +3,6 @@ package com.example.askend;
 import filter.FilterModelAssembler;
 import filter.FilterRepository;
 import filter.Filter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.stereotype.Controller;
@@ -16,19 +15,12 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @CrossOrigin(origins = "http://localhost:3000")
 @Controller
+@RequestMapping("/api")
 public class FilterController {
-
     private final FilterRepository repository;
     private final FilterModelAssembler assembler;
 
-    @RequestMapping("/hello")
-    @ResponseBody
-    public String helloWorld()
-    {
-        return "Hello World!";
-    }
-
-    FilterController (FilterRepository repository, FilterModelAssembler assembler){
+    public FilterController (FilterRepository repository, FilterModelAssembler assembler){
         this.repository = repository;
         this.assembler = assembler;
     }
@@ -41,8 +33,9 @@ public class FilterController {
 
         return CollectionModel.of(employees, linkTo(methodOn(FilterController.class).all()).withSelfRel());
     }
+
     @PostMapping("/filter")
-    Filter newFilter(@RequestBody Filter newFilter) {
+    public Filter newFilter(@RequestBody Filter newFilter) {
         return repository.save(newFilter);
     }
 
@@ -53,7 +46,7 @@ public class FilterController {
         return assembler.toModel(filter).getContent();
     }
     @PutMapping("/filters/{id}")
-    Filter replacefilter(@RequestBody Filter newFilter, @PathVariable Long id) {
+    public Filter replaceFilter(@RequestBody Filter newFilter, @PathVariable Long id) {
         return repository.findById(id)
                 .map(filter -> {
                     filter.setName(newFilter.getName());
@@ -65,7 +58,7 @@ public class FilterController {
                 });
     }
     @DeleteMapping("/filters/{id}")
-    void deleteFilter(@PathVariable Long id) {
+    public void deleteFilter(@PathVariable Long id) {
         repository.deleteById(id);
     }
 
